@@ -6,4 +6,5 @@
     <string name="about">About</string>
     <string name="open">Open</string>
     <string name="close">Close</string>
+    <string name="drawer_image">Drawer Image</string>
 </resources>
