@@ -46,6 +46,10 @@ public class MainActivity extends AppCompatActivity {
                         startNewActivity(new SettingsActivity());
                         break;
 
+                    case R.id.support:
+                        startNewActivity(new SupportActivity());
+                        break;
+
                 }
 
                 if (selectedFragment != null) {
