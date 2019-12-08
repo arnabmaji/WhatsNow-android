@@ -35,6 +35,11 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.dashboard:
                         selectedFragment = new DashboardFragment();
                         break;
+
+                    case R.id.today_schedule:
+                        selectedFragment = new TodaysScheduleFragment();
+                        break;
+
                 }
 
                 if (selectedFragment != null) {
