@@ -8,4 +8,13 @@
     <string name="close">Close</string>
     <string name="drawer_image">Drawer Image</string>
     <string name="support">Support</string>
+    <string name="ongoing_lecture">Ongoing Lecture</string>
+    <string name="upcoming_lecture">Upcoming Lecture</string>
+    <string name="next_lecture">Next Lecture</string>
+    <string name="lecture_number">Lecture Number</string>
+    <string name="room">Room:</string>
+    <string name="course_name">Course: Android Development</string>
+    <string name="faculty_name">Faculty: Arnab Maji</string>
+    <string name="lecture_room">Android Lab</string>
+    <string name="lecture_duration">10:00AM - 12:00PM</string>
 </resources>

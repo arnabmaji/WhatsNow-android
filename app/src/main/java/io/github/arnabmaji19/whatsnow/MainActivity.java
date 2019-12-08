@@ -25,8 +25,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //Creates Navigation Drawer
         setUpNavigationDrawer();
 
+        //Setting up navigation view and item selected listener
         navigationView = findViewById(R.id.navigation_view);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -57,10 +59,7 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 if (selectedFragment != null) {
-                    getSupportFragmentManager()
-                            .beginTransaction()
-                            .replace(R.id.frame_layout, selectedFragment)
-                            .commit();
+                    setFragment(selectedFragment);
                     drawerLayout.closeDrawer(GravityCompat.START);
                     return true;
                 }
@@ -68,6 +67,10 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+        //Showing Dashboard fragment as default fragment
+        setFragment(new DashboardFragment());
+        navigationView.setCheckedItem(R.id.dashboard);
 
     }
 
@@ -82,5 +85,13 @@ public class MainActivity extends AppCompatActivity {
 
     private void startNewActivity(Activity activity) {
         startActivity(new Intent(MainActivity.this, activity.getClass()));
+    }
+
+    //sets the selected fragment in main activity's frame layout
+    private void setFragment(Fragment fragment) {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.frame_layout, fragment)
+                .commit();
     }
 }
