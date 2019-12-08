@@ -1,5 +1,7 @@
 package io.github.arnabmaji19.whatsnow;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -40,6 +42,10 @@ public class MainActivity extends AppCompatActivity {
                         selectedFragment = new TodaysScheduleFragment();
                         break;
 
+                    case R.id.settings:
+                        startNewActivity(new SettingsActivity());
+                        break;
+
                 }
 
                 if (selectedFragment != null) {
@@ -64,5 +70,9 @@ public class MainActivity extends AppCompatActivity {
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open, R.string.close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
+    }
+
+    private void startNewActivity(Activity activity) {
+        startActivity(new Intent(MainActivity.this, activity.getClass()));
     }
 }
