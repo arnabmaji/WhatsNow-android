@@ -50,6 +50,10 @@ public class MainActivity extends AppCompatActivity {
                         startNewActivity(new SupportActivity());
                         break;
 
+                    case R.id.about:
+                        startNewActivity(new AboutActivity());
+                        break;
+
                 }
 
                 if (selectedFragment != null) {
