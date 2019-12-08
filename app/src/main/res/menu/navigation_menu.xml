@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group
+        android:id="@+id/schedule_group"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/dashboard"
+            android:title="@string/dashboard"
+            android:icon="@drawable/ic_dashboard_black_24dp" />
+        <item
+            android:id="@+id/today_schedule"
+            android:title="@string/today_schedule"
+            android:icon="@drawable/ic_schedule_black_24dp" />
+    </group>
+
+    <group
+        android:id="@+id/app_group"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/settings"
+            android:title="@string/settings"
+            android:icon="@drawable/ic_settings_black_24dp" />
+        <item
+            android:id="@+id/about"
+            android:title="@string/about"
+            android:icon="@drawable/ic_people_outline_black_24dp" />
+
+    </group>
+
+
+</menu>
