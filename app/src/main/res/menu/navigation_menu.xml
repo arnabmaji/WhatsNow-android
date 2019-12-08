@@ -22,6 +22,11 @@
             android:title="@string/settings"
             android:icon="@drawable/ic_settings_black_24dp" />
         <item
+            android:id="@+id/support"
+            android:title="@string/support"
+            android:icon="@drawable/ic_help_outline_black_24dp" />
+
+        <item
             android:id="@+id/about"
             android:title="@string/about"
             android:icon="@drawable/ic_people_outline_black_24dp" />
