@@ -2,7 +2,12 @@ package io.github.arnabmaji19.whatsnow.model;
 
 //Lecture POJO class for retrieving data from database and app usage
 
-public class Lecture {
+import java.io.Serializable;
+
+public class Lecture implements Serializable {
+
+    private final static Long serialVersionUID = 1L;
+
     private int period;
     private String courseName;
     private String faculty;

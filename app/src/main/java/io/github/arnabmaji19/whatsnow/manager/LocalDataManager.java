@@ -24,9 +24,7 @@ public class LocalDataManager {
     private File file;
 
     public LocalDataManager(Activity activity) {
-        String path = activity.getFilesDir().getAbsolutePath();
-        String fileWithPath = path + "/" + FILENAME_WITH_EXTENSION;
-        file = new File(fileWithPath);
+        file = new File(activity.getFilesDir(), FILENAME_WITH_EXTENSION);
     }
 
     //Serialize LocalScheduleData object in files directory

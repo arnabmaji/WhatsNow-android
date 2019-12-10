@@ -18,9 +18,14 @@ public class DashboardFragment extends Fragment {
 
     private Lecture currentLecture;
     private Lecture nextLecture;
+    private double elapsedTimeFraction;
 
-    //TODO: add a constructor to get these value while initialization
-    
+    //Constructor to get current and next lecture details
+    DashboardFragment(Lecture currentLecture, Lecture nextLecture, double elapsedTimeFraction) {
+        this.currentLecture = currentLecture;
+        this.nextLecture = nextLecture;
+        this.elapsedTimeFraction = elapsedTimeFraction;
+    }
     
     
     @Nullable
@@ -30,62 +35,65 @@ public class DashboardFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragement_dashboard, container, false);
 
-        //Linking and updating views of ongoing lecture card
-        TextView lectureNumberView = view.findViewById(R.id.currentLectureNumberTextView);
-        TextView courseNameView = view.findViewById(R.id.currentCourseNameTextView);
-        TextView facultyView = view.findViewById(R.id.currentFacultyNameTextView);
-        TextView roomNoView = view.findViewById(R.id.currentRoomTextView);
-        CircleProgressBar elapsedTimeView = view.findViewById(R.id.currentLectureProgressBar);
-        LectureCard lectureCard = new LectureCard(
-                lectureNumberView,
-                courseNameView,
-                facultyView,
-                roomNoView,
-                elapsedTimeView
-        );
-        lectureCard.updateCard(currentLecture);
+        if (currentLecture != null) {
+            //Linking and updating views of ongoing lecture card
+            CircleProgressBar elapsedTimeView = view.findViewById(R.id.currentLectureProgressBar);
+            //Calculating elapsed time for current lecture
+            elapsedTimeView.setMax(100);
+            int progress = (int) Math.floor(elapsedTimeFraction * 100);
+            elapsedTimeView.setProgress(progress);
+            LectureCard lectureCard = new LectureCard(
+                    (TextView) view.findViewById(R.id.currentLectureNumberTextView),
+                    (TextView) view.findViewById(R.id.currentCourseNameTextView),
+                    (TextView) view.findViewById(R.id.currentFacultyNameTextView),
+                    (TextView) view.findViewById(R.id.currentRoomTextView),
+                    (TextView) view.findViewById(R.id.currentLectureDurationTextView)
+            );
+            lectureCard.updateCard(currentLecture);
+        }
 
-        //Linking and updating views of upcoming lecture card
-        lectureNumberView = view.findViewById(R.id.nextLectureNumberTextView);
-        courseNameView = view.findViewById(R.id.nextCourseNameTextView);
-        facultyView = view.findViewById(R.id.nextFacultyNameTextView);
-        roomNoView = view.findViewById(R.id.nextRoomTextView);
-        elapsedTimeView = view.findViewById(R.id.nextLectureProgressBar);
-        lectureCard = new LectureCard(
-                lectureNumberView,
-                courseNameView,
-                facultyView,
-                roomNoView,
-                elapsedTimeView
-        );
-        lectureCard.updateCard(nextLecture);
+        if (nextLecture != null) {
+            //Linking and updating views of upcoming lecture card
+            LectureCard lectureCard = new LectureCard(
+                    (TextView) view.findViewById(R.id.nextLectureNumberTextView),
+                    (TextView) view.findViewById(R.id.nextCourseNameTextView),
+                    (TextView) view.findViewById(R.id.nextFacultyNameTextView),
+                    (TextView) view.findViewById(R.id.nextRoomTextView),
+                    (TextView) view.findViewById(R.id.nextLectureDurationTextView)
+            );
+            lectureCard.updateCard(nextLecture);
+        }
         return view;
     }
 
     private static class LectureCard {
-        TextView lectureNumberView;
-        TextView courseNameView;
-        TextView facultyView;
-        TextView roomNoView;
-        CircleProgressBar elapsedTimeView;
+        private TextView lectureNumberView;
+        private TextView courseNameView;
+        private TextView facultyView;
+        private TextView roomNoView;
+        private TextView lectureDurationView;
 
         private LectureCard(TextView lectureNumberView,
                             TextView courseNameView,
                             TextView facultyView,
                             TextView roomNoView,
-                            CircleProgressBar elapsedTimeView) {
+                            TextView lectureDurationView) {
             this.lectureNumberView = lectureNumberView;
             this.courseNameView = courseNameView;
             this.facultyView = facultyView;
             this.roomNoView = roomNoView;
-            this.elapsedTimeView = elapsedTimeView;
+            this.lectureDurationView = lectureDurationView;
         }
 
         private void updateCard(Lecture lecture) {
-            lectureNumberView.setText(lecture.getPeriod());
-            courseNameView.setText(lecture.getCourseName());
-            facultyView.setText(lecture.getFaculty());
-            roomNoView.setText(lecture.getRoom());
+            String lectureNo = "Lecture No. " + lecture.getPeriod();
+            String courseName = "Course: " + lecture.getCourseName();
+            String faculty = "Faculty: " + lecture.getFaculty();
+            this.lectureNumberView.setText(lectureNo);
+            this.courseNameView.setText(courseName);
+            this.facultyView.setText(faculty);
+            this.roomNoView.setText(lecture.getRoom());
+            this.lectureDurationView.setText(lecture.getDuration());
         }
     }
 }

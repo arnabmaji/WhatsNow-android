@@ -15,6 +15,12 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.navigation.NavigationView;
 
+import io.github.arnabmaji19.whatsnow.manager.DateTimeManager;
+import io.github.arnabmaji19.whatsnow.manager.LocalDataManager;
+import io.github.arnabmaji19.whatsnow.manager.ScheduleManager;
+import io.github.arnabmaji19.whatsnow.model.Lecture;
+import io.github.arnabmaji19.whatsnow.model.LocalScheduleData;
+
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
@@ -30,6 +36,20 @@ public class MainActivity extends AppCompatActivity {
         //Creates Navigation Drawer
         setUpNavigationDrawer();
 
+        //TODO: get json from database, use it or save on local storage
+        //Code for testing purposes
+        LocalDataManager localDataManager = new LocalDataManager(this);
+        LocalScheduleData localScheduleData = localDataManager.retrieveLocalScheduleData();
+        final DateTimeManager dateTimeManager = new DateTimeManager();
+        int currentLectureNo = dateTimeManager.getCurrentLectureNo();
+        ScheduleManager scheduleManager = new ScheduleManager(localScheduleData.getFullSchedule(),
+                currentLectureNo,
+                dateTimeManager.getTodayAsString());
+        final Lecture currentLecture = scheduleManager.getOnGoingLecture();
+        final Lecture nextLecture = scheduleManager.getUpcomingLecture();
+
+        //---END of code for testing purposes--------------------------
+
         //Setting up navigation view and item selected listener
         navigationView = findViewById(R.id.navigation_view);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -39,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
 
                 switch (menuItem.getItemId()) {
                     case R.id.dashboard:
-                        selectedFragment = new DashboardFragment();
+                        selectedFragment = new DashboardFragment(currentLecture, nextLecture, dateTimeManager.getElapsedTimeFraction());
                         break;
 
                     case R.id.today_schedule:
@@ -70,14 +90,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
         //Showing Dashboard fragment as default fragment
-        setFragment(new DashboardFragment());
+        setFragment(new DashboardFragment(currentLecture, nextLecture, dateTimeManager.getElapsedTimeFraction()));
         navigationView.setCheckedItem(R.id.dashboard);
-
-        //------------Using For firebase test-------------------
-
-
-        //-------------------------------------------------------
-
     }
 
     private void setUpNavigationDrawer() {

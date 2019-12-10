@@ -23,12 +23,16 @@ public class ScheduleManager {
     }
 
     public Lecture getOnGoingLecture() {
-        return getAllLecturesOfToday()
-                .get(--currentLectureNo);
+        return workingHours() ? getAllLecturesOfToday()
+                .get(currentLectureNo - 1) : null;
     }
 
     public Lecture getUpcomingLecture() {
-        return getAllLecturesOfToday()
-                .get(currentLectureNo);
+        return (workingHours() && currentLectureNo < 8) ? getAllLecturesOfToday()
+                .get(currentLectureNo) : null;
+    }
+
+    private boolean workingHours() {
+        return !(currentLectureNo == -1);
     }
 }
