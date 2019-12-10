@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -26,6 +27,8 @@ public class TodaysScheduleFragment extends Fragment {
     private Context context;
     private ScheduleManager scheduleManager;
     private DateTimeManager dateTimeManager;
+    private TextView offDayTextView;
+    private RecyclerView scheduleRecyclerView;
 
     public TodaysScheduleFragment(Context context, ScheduleManager scheduleManager, DateTimeManager dateTimeManager) {
         this.context = context;
@@ -39,20 +42,48 @@ public class TodaysScheduleFragment extends Fragment {
         super.onCreateView(inflater, container, savedInstanceState);
         view = inflater.inflate(R.layout.fragement_todays_schedule, container, false);
 
+        offDayTextView = view.findViewById(R.id.offdayTextView);
+        //Configuring Recycler View
+        scheduleRecyclerView = view.findViewById(R.id.scheduleRecyclerView);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
+        scheduleRecyclerView.setLayoutManager(linearLayoutManager);
+
         //Configuring Week Day picker
         MaterialDayPicker dayPicker = view.findViewById(R.id.day_picker);
         dayPicker.setSelectionMode(SingleSelectionMode.create());
-        populateScheduleRecyclerView();
+
+        //Selecting toady
+        dayPicker.setSelectedDays(dateTimeManager.getWeekdayAsMaterialDayPickerWeekday());
+        showSchedule(dateTimeManager.getTodayAsString()); //Showing todays schedule by default
+
+        dayPicker.setDayPressedListener(new MaterialDayPicker.DayPressedListener() {
+            @Override
+            public void onDayPressed(@NonNull MaterialDayPicker.Weekday selectedDay, boolean b) {
+                if (selectedDay.equals(MaterialDayPicker.Weekday.SATURDAY) ||
+                        selectedDay.equals(MaterialDayPicker.Weekday.SUNDAY)) {
+                    //If It's off day, hide recycler view and show off day message
+                    scheduleRecyclerView.setVisibility(View.GONE);
+                    offDayTextView.setVisibility(View.VISIBLE);
+                } else {
+                    //Otherwise show recycler view and hide off day message
+                    scheduleRecyclerView.setVisibility(View.VISIBLE);
+                    offDayTextView.setVisibility(View.GONE);
+                    //Show schedule for specific day
+                    String day = dateTimeManager.getDayAsString(selectedDay);
+                    showSchedule(day);
+                }
+            }
+        });
         return view;
     }
 
-    private void populateScheduleRecyclerView() {
-        //setting up Recycler View
-        RecyclerView scheduleRecyclerView = view.findViewById(R.id.scheduleRecyclerView);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
-        scheduleRecyclerView.setLayoutManager(linearLayoutManager);
-        List<Lecture> lectureList = scheduleManager.getAllLecturesOfToday();
-        LecturesListAdapter adapter = new LecturesListAdapter(lectureList, dateTimeManager);
+    private void showSchedule(String day) {
+        List<Lecture> lecturesList = scheduleManager.getLecturesOfDay(day);
+        populateScheduleRecyclerView(lecturesList);
+    }
+
+    private void populateScheduleRecyclerView(List<Lecture> lecturesList) {
+        LecturesListAdapter adapter = new LecturesListAdapter(lecturesList, dateTimeManager);
         scheduleRecyclerView.setAdapter(adapter);
     }
 }

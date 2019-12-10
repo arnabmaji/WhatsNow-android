@@ -32,6 +32,10 @@ public class ScheduleManager {
                 .get(currentLectureNo) : null;
     }
 
+    public List<Lecture> getLecturesOfDay(String day) {
+        return schedule.get(day);
+    }
+
     private boolean workingHours() {
         return !(currentLectureNo == -1);
     }

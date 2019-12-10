@@ -7,6 +7,8 @@ import android.util.SparseArray;
 import java.util.Calendar;
 import java.util.Locale;
 
+import ca.antonious.materialdaypicker.MaterialDayPicker;
+
 public class DateTimeManager {
 
     private static final int PERIOD_MAX_TIME = 55;
@@ -22,8 +24,6 @@ public class DateTimeManager {
         weekdays.put(6, "Friday");
         weekdays.put(7, "Saturday");
     }
-
-    public enum Weekdays {MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY}
 
     private String timeString;
     private int currentTimeValue;
@@ -94,5 +94,49 @@ public class DateTimeManager {
 
     public String getTodayAsString() {
         return weekdays.get(calendar.get(Calendar.DAY_OF_WEEK));
+    }
+
+
+    public String getDayAsString(MaterialDayPicker.Weekday weekday) {
+        /*
+         * Function to Convert MaterialDayPicker.Weekday to String
+         */
+        int day = 1; //Default: Sunday
+        if (weekday.equals(MaterialDayPicker.Weekday.MONDAY)) {
+            day = 2;
+        } else if (weekday.equals(MaterialDayPicker.Weekday.TUESDAY)) {
+            day = 3;
+        } else if (weekday.equals(MaterialDayPicker.Weekday.WEDNESDAY)) {
+            day = 4;
+        } else if (weekday.equals(MaterialDayPicker.Weekday.THURSDAY)) {
+            day = 5;
+        } else if (weekday.equals(MaterialDayPicker.Weekday.FRIDAY)) {
+            day = 6;
+        } else if (weekday.equals(MaterialDayPicker.Weekday.SATURDAY)) {
+            day = 7;
+        }
+        return weekdays.get(day);
+    }
+
+    public MaterialDayPicker.Weekday getWeekdayAsMaterialDayPickerWeekday() {
+        /*
+         * Function converting String to MaterialDayPicker.Weekday
+         */
+
+        String today = getTodayAsString();
+        if (today.equals(weekdays.get(1))) {
+            return MaterialDayPicker.Weekday.SUNDAY;
+        } else if (today.equals(weekdays.get(2))) {
+            return MaterialDayPicker.Weekday.MONDAY;
+        } else if (today.equals(weekdays.get(3))) {
+            return MaterialDayPicker.Weekday.TUESDAY;
+        } else if (today.equals(weekdays.get(4))) {
+            return MaterialDayPicker.Weekday.WEDNESDAY;
+        } else if (today.equals(weekdays.get(5))) {
+            return MaterialDayPicker.Weekday.THURSDAY;
+        } else if (today.equals(weekdays.get(6))) {
+            return MaterialDayPicker.Weekday.FRIDAY;
+        }
+        return MaterialDayPicker.Weekday.SATURDAY;
     }
 }
