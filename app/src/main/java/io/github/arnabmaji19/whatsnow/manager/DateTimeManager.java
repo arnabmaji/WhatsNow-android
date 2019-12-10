@@ -2,6 +2,8 @@ package io.github.arnabmaji19.whatsnow.manager;
 
 //Manages Data Time based operations
 
+import android.util.SparseArray;
+
 import java.util.Calendar;
 import java.util.Locale;
 
@@ -9,22 +11,27 @@ public class DateTimeManager {
 
     private static final int PERIOD_MAX_TIME = 55;
 
-    public static final String[] WEEKDAYS = new String[]{
-            "Monday",
-            "Tuesday",
-            "Wednesday",
-            "Thursday",
-            "Friday"
-    };
+    private static final SparseArray<String> weekdays = new SparseArray<>();
+
+    static {
+        weekdays.put(1, "Sunday");
+        weekdays.put(2, "Monday");
+        weekdays.put(3, "Tuesday");
+        weekdays.put(4, "Wednesday");
+        weekdays.put(5, "Thursday");
+        weekdays.put(6, "Friday");
+        weekdays.put(7, "Saturday");
+    }
 
     public enum Weekdays {MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY}
 
     private String timeString;
     private int currentTimeValue;
     private String periodStartTimeString;
+    private Calendar calendar;
 
     public DateTimeManager() {
-        Calendar calendar = Calendar.getInstance();
+        this.calendar = Calendar.getInstance();
         //Calculating current time values
         int currentMinute = calendar.get(Calendar.MINUTE);
         int currentHour = calendar.get(Calendar.HOUR_OF_DAY);
@@ -83,5 +90,9 @@ public class DateTimeManager {
         int elapsedTime = elapsedMinute + (currentHour - startHour) * 60;
 
         return (double) (elapsedTime) / (double) (PERIOD_MAX_TIME);
+    }
+
+    public String getTodayAsString() {
+        return weekdays.get(calendar.get(Calendar.DAY_OF_WEEK));
     }
 }

@@ -10,16 +10,16 @@ import io.github.arnabmaji19.whatsnow.model.Lecture;
 public class ScheduleManager {
     private Map<String, List<Lecture>> schedule;
     private int currentLectureNo;
+    private String todayAsString;
 
-    public ScheduleManager(Map<String, List<Lecture>> schedule, int currentLectureNo) {
+    public ScheduleManager(Map<String, List<Lecture>> schedule, int currentLectureNo, String todayAsString) {
         this.schedule = schedule;
         this.currentLectureNo = currentLectureNo;
+        this.todayAsString = todayAsString;
     }
 
     public List<Lecture> getAllLecturesOfToday() {
-        //TODO: Get current day as string
-        String weekdayString = "";
-        return schedule.get(weekdayString);
+        return schedule.get(todayAsString);
     }
 
     public Lecture getOnGoingLecture() {
