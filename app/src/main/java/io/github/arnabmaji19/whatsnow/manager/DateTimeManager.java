@@ -82,6 +82,6 @@ public class DateTimeManager {
         }
         int elapsedTime = elapsedMinute + (currentHour - startHour) * 60;
 
-        return elapsedTime / PERIOD_MAX_TIME;
+        return (double) (elapsedTime) / (double) (PERIOD_MAX_TIME);
     }
 }
