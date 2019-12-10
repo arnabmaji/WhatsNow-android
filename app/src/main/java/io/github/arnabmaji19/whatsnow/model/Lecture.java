@@ -5,7 +5,6 @@ package io.github.arnabmaji19.whatsnow.model;
 public class Lecture {
     private int period;
     private String courseName;
-    private String courseCode;
     private String faculty;
     private String room;
     private String duration;
@@ -13,10 +12,9 @@ public class Lecture {
     public Lecture() {
     }
 
-    public Lecture(int period, String courseName, String courseCode, String faculty, String room, String duration) {
+    public Lecture(int period, String courseName, String faculty, String room, String duration) {
         this.period = period;
         this.courseName = courseName;
-        this.courseCode = courseCode;
         this.faculty = faculty;
         this.room = room;
         this.duration = duration;
@@ -36,14 +34,6 @@ public class Lecture {
 
     public void setCourseName(String courseName) {
         this.courseName = courseName;
-    }
-
-    public String getCourseCode() {
-        return courseCode;
-    }
-
-    public void setCourseCode(String courseCode) {
-        this.courseCode = courseCode;
     }
 
     public String getFaculty() {

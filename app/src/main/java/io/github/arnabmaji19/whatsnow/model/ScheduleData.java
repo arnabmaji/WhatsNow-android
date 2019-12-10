@@ -1,8 +1,8 @@
 package io.github.arnabmaji19.whatsnow.model;
 
-//Schedule PJO class for retrieving data from database
+//ScheduleData PJO class for retrieving data from database
 
-public class Schedule {
+public class ScheduleData {
 
     private String department;
     private String batch;
@@ -11,10 +11,10 @@ public class Schedule {
     private String scheduleId;
     private String lastUpdated;
 
-    public Schedule() {
+    public ScheduleData() {
     }
 
-    public Schedule(String department, String batch, String section, String semester, String scheduleId, String lastUpdated) {
+    public ScheduleData(String department, String batch, String section, String semester, String scheduleId, String lastUpdated) {
         this.department = department;
         this.batch = batch;
         this.section = section;

@@ -17,6 +17,8 @@ import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final String TAG = "MainActivity";
+
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
 
@@ -63,7 +65,6 @@ public class MainActivity extends AppCompatActivity {
                     drawerLayout.closeDrawer(GravityCompat.START);
                     return true;
                 }
-
                 return false;
             }
         });
@@ -71,6 +72,11 @@ public class MainActivity extends AppCompatActivity {
         //Showing Dashboard fragment as default fragment
         setFragment(new DashboardFragment());
         navigationView.setCheckedItem(R.id.dashboard);
+
+        //------------Using For firebase test-------------------
+
+
+        //-------------------------------------------------------
 
     }
 
