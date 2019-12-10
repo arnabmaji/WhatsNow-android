@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         LocalScheduleData localScheduleData = localDataManager.retrieveLocalScheduleData();
         final DateTimeManager dateTimeManager = new DateTimeManager();
         int currentLectureNo = dateTimeManager.getCurrentLectureNo();
-        ScheduleManager scheduleManager = new ScheduleManager(localScheduleData.getFullSchedule(),
+        final ScheduleManager scheduleManager = new ScheduleManager(localScheduleData.getFullSchedule(),
                 currentLectureNo,
                 dateTimeManager.getTodayAsString());
         final Lecture currentLecture = scheduleManager.getOnGoingLecture();
@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
 
                     case R.id.today_schedule:
-                        selectedFragment = new TodaysScheduleFragment();
+                        selectedFragment = new TodaysScheduleFragment(MainActivity.this, scheduleManager, dateTimeManager);
                         break;
 
                     case R.id.settings:
@@ -77,7 +77,6 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.about:
                         startNewActivity(new AboutActivity());
                         break;
-
                 }
 
                 if (selectedFragment != null) {
