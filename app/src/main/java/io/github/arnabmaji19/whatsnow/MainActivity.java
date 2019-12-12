@@ -15,11 +15,11 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.navigation.NavigationView;
 
-import io.github.arnabmaji19.whatsnow.manager.DateTimeManager;
-import io.github.arnabmaji19.whatsnow.manager.LocalDataManager;
-import io.github.arnabmaji19.whatsnow.manager.ScheduleManager;
 import io.github.arnabmaji19.whatsnow.model.Lecture;
 import io.github.arnabmaji19.whatsnow.model.LocalScheduleData;
+import io.github.arnabmaji19.whatsnow.util.DateTimeManager;
+import io.github.arnabmaji19.whatsnow.util.LocalDataManager;
+import io.github.arnabmaji19.whatsnow.util.ScheduleManager;
 
 public class MainActivity extends AppCompatActivity {
 

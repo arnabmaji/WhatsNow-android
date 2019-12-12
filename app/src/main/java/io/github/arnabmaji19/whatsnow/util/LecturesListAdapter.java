@@ -1,4 +1,4 @@
-package io.github.arnabmaji19.whatsnow;
+package io.github.arnabmaji19.whatsnow.util;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +12,7 @@ import com.dinuscxj.progressbar.CircleProgressBar;
 
 import java.util.List;
 
-import io.github.arnabmaji19.whatsnow.manager.DateTimeManager;
+import io.github.arnabmaji19.whatsnow.R;
 import io.github.arnabmaji19.whatsnow.model.Lecture;
 
 public class LecturesListAdapter extends RecyclerView.Adapter<LecturesListAdapter.LectureCardViewHolder> {
@@ -45,6 +45,7 @@ public class LecturesListAdapter extends RecyclerView.Adapter<LecturesListAdapte
         holder.roomNoView.setText(lecture.getRoom());
         holder.lectureDurationView.setText(lecture.getDuration());
         //TODO: Update Lecture Progress bar
+
 
     }
 

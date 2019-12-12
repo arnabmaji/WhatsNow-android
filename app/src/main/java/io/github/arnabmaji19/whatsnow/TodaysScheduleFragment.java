@@ -17,9 +17,10 @@ import java.util.List;
 
 import ca.antonious.materialdaypicker.MaterialDayPicker;
 import ca.antonious.materialdaypicker.SingleSelectionMode;
-import io.github.arnabmaji19.whatsnow.manager.DateTimeManager;
-import io.github.arnabmaji19.whatsnow.manager.ScheduleManager;
 import io.github.arnabmaji19.whatsnow.model.Lecture;
+import io.github.arnabmaji19.whatsnow.util.DateTimeManager;
+import io.github.arnabmaji19.whatsnow.util.LecturesListAdapter;
+import io.github.arnabmaji19.whatsnow.util.ScheduleManager;
 
 public class TodaysScheduleFragment extends Fragment {
 
@@ -53,7 +54,7 @@ public class TodaysScheduleFragment extends Fragment {
         dayPicker.setSelectionMode(SingleSelectionMode.create());
 
         //Selecting toady
-        dayPicker.setSelectedDays(dateTimeManager.getWeekdayAsMaterialDayPickerWeekday());
+        dayPicker.setSelectedDays(dateTimeManager.getTodayAsMaterialDayPickerWeekday());
         showSchedule(dateTimeManager.getTodayAsString()); //Showing todays schedule by default
 
         dayPicker.setDayPressedListener(new MaterialDayPicker.DayPressedListener() {
@@ -69,7 +70,7 @@ public class TodaysScheduleFragment extends Fragment {
                     scheduleRecyclerView.setVisibility(View.VISIBLE);
                     offDayTextView.setVisibility(View.GONE);
                     //Show schedule for specific day
-                    String day = dateTimeManager.getDayAsString(selectedDay);
+                    String day = dateTimeManager.getMaterialDayPickerWeekdayAsString(selectedDay);
                     showSchedule(day);
                 }
             }
@@ -78,11 +79,13 @@ public class TodaysScheduleFragment extends Fragment {
     }
 
     private void showSchedule(String day) {
+        //Get List of Lectures for requested day
         List<Lecture> lecturesList = scheduleManager.getLecturesOfDay(day);
         populateScheduleRecyclerView(lecturesList);
     }
 
     private void populateScheduleRecyclerView(List<Lecture> lecturesList) {
+        //Populate Recycler View with the requested list of lectures
         LecturesListAdapter adapter = new LecturesListAdapter(lecturesList, dateTimeManager);
         scheduleRecyclerView.setAdapter(adapter);
     }

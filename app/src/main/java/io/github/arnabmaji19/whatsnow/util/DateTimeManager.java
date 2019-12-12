@@ -1,8 +1,11 @@
-package io.github.arnabmaji19.whatsnow.manager;
+package io.github.arnabmaji19.whatsnow.util;
 
 //Manages Data Time based operations
 
 import android.util.SparseArray;
+
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
 
 import java.util.Calendar;
 import java.util.Locale;
@@ -11,9 +14,10 @@ import ca.antonious.materialdaypicker.MaterialDayPicker;
 
 public class DateTimeManager {
 
-    private static final int PERIOD_MAX_TIME = 55;
+    public static final int PERIOD_MAX_TIME = 55;
 
     private static final SparseArray<String> weekdays = new SparseArray<>();
+    private static final BiMap<String, MaterialDayPicker.Weekday> materialDayPickerWeekdayMap = HashBiMap.create();
 
     static {
         weekdays.put(1, "Sunday");
@@ -23,6 +27,15 @@ public class DateTimeManager {
         weekdays.put(5, "Thursday");
         weekdays.put(6, "Friday");
         weekdays.put(7, "Saturday");
+
+        //Adding Strings to materialDayPickerWeekdayMap
+        materialDayPickerWeekdayMap.put("Sunday", MaterialDayPicker.Weekday.SUNDAY);
+        materialDayPickerWeekdayMap.put("Monday", MaterialDayPicker.Weekday.MONDAY);
+        materialDayPickerWeekdayMap.put("Tuesday", MaterialDayPicker.Weekday.TUESDAY);
+        materialDayPickerWeekdayMap.put("Wednesday", MaterialDayPicker.Weekday.WEDNESDAY);
+        materialDayPickerWeekdayMap.put("Thursday", MaterialDayPicker.Weekday.THURSDAY);
+        materialDayPickerWeekdayMap.put("Friday", MaterialDayPicker.Weekday.FRIDAY);
+        materialDayPickerWeekdayMap.put("Saturday", MaterialDayPicker.Weekday.SATURDAY);
     }
 
     private String timeString;
@@ -72,13 +85,19 @@ public class DateTimeManager {
     }
 
     public double getElapsedTimeFraction() {
+        /*
+         * Function returns current lecture progress in Fraction
+         */
+
         String currentTimeString = String.format(Locale.getDefault(), "%04d", this.currentTimeValue);
         String startTime = periodStartTimeString;
+
         int currentHour = Integer.parseInt(currentTimeString.substring(0, 2));
         int currentMinute = Integer.parseInt(currentTimeString.substring(2));
 
         int startHour = Integer.parseInt(startTime.substring(0, 2));
         int startMinute = Integer.parseInt(startTime.substring(2));
+
         int elapsedMinute = 0;
         if (currentMinute >= startMinute) {
             elapsedMinute += (currentMinute - startMinute);
@@ -93,50 +112,46 @@ public class DateTimeManager {
     }
 
     public String getTodayAsString() {
-        return weekdays.get(calendar.get(Calendar.DAY_OF_WEEK));
+        return weekdays.get(getCurrentDayNo());
+    }
+
+    private int getCurrentDayNo() {
+        return calendar.get(Calendar.DAY_OF_WEEK);
     }
 
 
-    public String getDayAsString(MaterialDayPicker.Weekday weekday) {
+    public String getMaterialDayPickerWeekdayAsString(MaterialDayPicker.Weekday weekday) {
         /*
          * Function to Convert MaterialDayPicker.Weekday to String
          */
-        int day = 1; //Default: Sunday
-        if (weekday.equals(MaterialDayPicker.Weekday.MONDAY)) {
-            day = 2;
-        } else if (weekday.equals(MaterialDayPicker.Weekday.TUESDAY)) {
-            day = 3;
-        } else if (weekday.equals(MaterialDayPicker.Weekday.WEDNESDAY)) {
-            day = 4;
-        } else if (weekday.equals(MaterialDayPicker.Weekday.THURSDAY)) {
-            day = 5;
-        } else if (weekday.equals(MaterialDayPicker.Weekday.FRIDAY)) {
-            day = 6;
-        } else if (weekday.equals(MaterialDayPicker.Weekday.SATURDAY)) {
-            day = 7;
-        }
-        return weekdays.get(day);
+        return materialDayPickerWeekdayMap.inverse().get(weekday);
     }
 
-    public MaterialDayPicker.Weekday getWeekdayAsMaterialDayPickerWeekday() {
+    public MaterialDayPicker.Weekday getTodayAsMaterialDayPickerWeekday() {
         /*
-         * Function converting String to MaterialDayPicker.Weekday
+         * Function to convert String to MaterialDayPicker.Weekday
          */
 
-        String today = getTodayAsString();
-        if (today.equals(weekdays.get(1))) {
-            return MaterialDayPicker.Weekday.SUNDAY;
-        } else if (today.equals(weekdays.get(2))) {
-            return MaterialDayPicker.Weekday.MONDAY;
-        } else if (today.equals(weekdays.get(3))) {
-            return MaterialDayPicker.Weekday.TUESDAY;
-        } else if (today.equals(weekdays.get(4))) {
-            return MaterialDayPicker.Weekday.WEDNESDAY;
-        } else if (today.equals(weekdays.get(5))) {
-            return MaterialDayPicker.Weekday.THURSDAY;
-        } else if (today.equals(weekdays.get(6))) {
-            return MaterialDayPicker.Weekday.FRIDAY;
+        return materialDayPickerWeekdayMap.get(getTodayAsString());
+    }
+
+
+    public int getLectureProgressStatus(int weekDayNo, int lectureNo) {
+        /*
+         * Returns Lecture Progress status: -1: Upcoming, 0: Ongoing, 1: Completed
+         */
+        int currentDayNo = getCurrentDayNo();
+        int currentLectureNo = getCurrentLectureNo();
+
+        if (weekDayNo < currentDayNo) {
+            return 1;
+        } else if (weekDayNo == currentDayNo) {
+            if (lectureNo < currentLectureNo) {
+                return 1;
+            } else if (lectureNo == currentLectureNo) {
+                return 0;
+            }
         }
-        return MaterialDayPicker.Weekday.SATURDAY;
+        return -1;
     }
 }

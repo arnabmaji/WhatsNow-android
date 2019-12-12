@@ -1,4 +1,4 @@
-package io.github.arnabmaji19.whatsnow.manager;
+package io.github.arnabmaji19.whatsnow.util;
 
 //Singleton class for managing database operations
 
