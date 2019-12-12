@@ -2,8 +2,6 @@ package io.github.arnabmaji19.whatsnow.util;
 
 //Manages Data Time based operations
 
-import android.util.SparseArray;
-
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 
@@ -14,19 +12,21 @@ import ca.antonious.materialdaypicker.MaterialDayPicker;
 
 public class DateTimeManager {
 
+    private static final String TAG = "DateTimeManager";
     public static final int PERIOD_MAX_TIME = 55;
 
-    private static final SparseArray<String> weekdays = new SparseArray<>();
+    private static final BiMap<Integer, String> weekdayMap = HashBiMap.create();
     private static final BiMap<String, MaterialDayPicker.Weekday> materialDayPickerWeekdayMap = HashBiMap.create();
 
     static {
-        weekdays.put(1, "Sunday");
-        weekdays.put(2, "Monday");
-        weekdays.put(3, "Tuesday");
-        weekdays.put(4, "Wednesday");
-        weekdays.put(5, "Thursday");
-        weekdays.put(6, "Friday");
-        weekdays.put(7, "Saturday");
+
+        weekdayMap.put(1, "Sunday");
+        weekdayMap.put(2, "Monday");
+        weekdayMap.put(3, "Tuesday");
+        weekdayMap.put(4, "Wednesday");
+        weekdayMap.put(5, "Thursday");
+        weekdayMap.put(6, "Friday");
+        weekdayMap.put(7, "Saturday");
 
         //Adding Strings to materialDayPickerWeekdayMap
         materialDayPickerWeekdayMap.put("Sunday", MaterialDayPicker.Weekday.SUNDAY);
@@ -38,7 +38,8 @@ public class DateTimeManager {
         materialDayPickerWeekdayMap.put("Saturday", MaterialDayPicker.Weekday.SATURDAY);
     }
 
-    private String timeString;
+    public enum ProgressStatus {COMPLETED, UPCOMING, ONGOING}
+
     private int currentTimeValue;
     private String periodStartTimeString;
     private Calendar calendar;
@@ -48,7 +49,7 @@ public class DateTimeManager {
         //Calculating current time values
         int currentMinute = calendar.get(Calendar.MINUTE);
         int currentHour = calendar.get(Calendar.HOUR_OF_DAY);
-        this.timeString = String.format(Locale.getDefault(), "%d%02d", currentHour, currentMinute);
+        String timeString = String.format(Locale.getDefault(), "%d%02d", currentHour, currentMinute);
         this.currentTimeValue = Integer.parseInt(timeString);
     }
 
@@ -112,7 +113,7 @@ public class DateTimeManager {
     }
 
     public String getTodayAsString() {
-        return weekdays.get(getCurrentDayNo());
+        return weekdayMap.get(getCurrentDayNo());
     }
 
     private int getCurrentDayNo() {
@@ -136,22 +137,24 @@ public class DateTimeManager {
     }
 
 
-    public int getLectureProgressStatus(int weekDayNo, int lectureNo) {
+    public ProgressStatus getLectureProgressStatus(String dayString, int lectureNo) {
         /*
-         * Returns Lecture Progress status: -1: Upcoming, 0: Ongoing, 1: Completed
+         * Returns Lecture Progress status
          */
+
         int currentDayNo = getCurrentDayNo();
         int currentLectureNo = getCurrentLectureNo();
+        int weekDayNo = weekdayMap.inverse().get(dayString);
 
         if (weekDayNo < currentDayNo) {
-            return 1;
+            return ProgressStatus.COMPLETED;
         } else if (weekDayNo == currentDayNo) {
             if (lectureNo < currentLectureNo) {
-                return 1;
+                return ProgressStatus.COMPLETED;
             } else if (lectureNo == currentLectureNo) {
-                return 0;
+                return ProgressStatus.ONGOING;
             }
         }
-        return -1;
+        return ProgressStatus.UPCOMING;
     }
 }

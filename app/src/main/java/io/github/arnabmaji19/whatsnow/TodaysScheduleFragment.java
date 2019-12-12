@@ -81,12 +81,7 @@ public class TodaysScheduleFragment extends Fragment {
     private void showSchedule(String day) {
         //Get List of Lectures for requested day
         List<Lecture> lecturesList = scheduleManager.getLecturesOfDay(day);
-        populateScheduleRecyclerView(lecturesList);
-    }
-
-    private void populateScheduleRecyclerView(List<Lecture> lecturesList) {
-        //Populate Recycler View with the requested list of lectures
-        LecturesListAdapter adapter = new LecturesListAdapter(lecturesList, dateTimeManager);
+        LecturesListAdapter adapter = new LecturesListAdapter(lecturesList, dateTimeManager, day);
         scheduleRecyclerView.setAdapter(adapter);
     }
 }
