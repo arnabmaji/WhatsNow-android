@@ -20,4 +20,5 @@
     <string name="lecture_duration"> </string>
     <string name="connection_error">Oops!\nInternet Connection Not Available!</string>
     <string name="try_again">Try Again!</string>
+    <string name="load_text">Looking up in the database!</string>
 </resources>
