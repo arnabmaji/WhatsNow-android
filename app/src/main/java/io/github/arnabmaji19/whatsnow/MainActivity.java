@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         setUpNavigationDrawer();
 
         //TODO: get json from database, use it or save on local storage
-        //Code for testing purposes
+        //Code for testing purposes----------------------------------
         LocalDataManager localDataManager = new LocalDataManager(this);
         LocalScheduleData localScheduleData = localDataManager.retrieveLocalScheduleData();
         final DateTimeManager dateTimeManager = new DateTimeManager();
@@ -59,11 +59,15 @@ public class MainActivity extends AppCompatActivity {
 
                 switch (menuItem.getItemId()) {
                     case R.id.dashboard:
-                        selectedFragment = new DashboardFragment(currentLecture, nextLecture, dateTimeManager.getElapsedTimeFraction());
+                        selectedFragment = new DashboardFragment(currentLecture,
+                                nextLecture,
+                                dateTimeManager.getElapsedTimeFraction());
                         break;
 
                     case R.id.today_schedule:
-                        selectedFragment = new TodaysScheduleFragment(MainActivity.this, scheduleManager, dateTimeManager);
+                        selectedFragment = new TodaysScheduleFragment(MainActivity.this,
+                                scheduleManager,
+                                dateTimeManager);
                         break;
 
                     case R.id.settings:
@@ -89,7 +93,9 @@ public class MainActivity extends AppCompatActivity {
         });
 
         //Showing Dashboard fragment as default fragment
-        setFragment(new DashboardFragment(currentLecture, nextLecture, dateTimeManager.getElapsedTimeFraction()));
+        setFragment(new DashboardFragment(currentLecture,
+                nextLecture,
+                dateTimeManager.getElapsedTimeFraction()));
         navigationView.setCheckedItem(R.id.dashboard);
     }
 
@@ -97,7 +103,9 @@ public class MainActivity extends AppCompatActivity {
         drawerLayout = findViewById(R.id.drawer_layout);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open, R.string.close);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,
+                drawerLayout,
+                toolbar, R.string.open, R.string.close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
     }

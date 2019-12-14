@@ -18,4 +18,6 @@
     <string name="off_day">It\'s Off day!</string>
     <string name="lecture_room"> </string>
     <string name="lecture_duration"> </string>
+    <string name="connection_error">Oops!\nInternet Connection Not Available!</string>
+    <string name="try_again">Try Again!</string>
 </resources>
