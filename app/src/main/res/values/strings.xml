@@ -21,4 +21,10 @@
     <string name="connection_error">Oops!\nInternet Connection Not Available!</string>
     <string name="try_again">Try Again!</string>
     <string name="load_text">Looking up in the database!</string>
+    <string name="select_schedule">Select your preferred schedule:</string>
+    <string name="department">Department:</string>
+    <string name="section">Section:</string>
+    <string name="batch">Batch:</string>
+    <string name="semester">Semester:</string>
+    <string name="last_updated">Last Updated:</string>
 </resources>
