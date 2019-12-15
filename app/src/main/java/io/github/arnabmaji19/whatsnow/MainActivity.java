@@ -36,9 +36,12 @@ public class MainActivity extends AppCompatActivity {
         //Creates Navigation Drawer
         setUpNavigationDrawer();
 
-        //TODO: get json from database, use it or save on local storage
-        //Code for testing purposes----------------------------------
         LocalDataManager localDataManager = new LocalDataManager(this);
+        if (!localDataManager.isLocalDataAvailable()) { //Check if local data is available
+            startNewActivity(new SetupActivity()); //If not available get from database from SetUpActivity
+            finish(); //finish the activity, cause you need to restart app after saving local data
+            return;
+        }
         LocalScheduleData localScheduleData = localDataManager.retrieveLocalScheduleData();
         final DateTimeManager dateTimeManager = new DateTimeManager();
         int currentLectureNo = dateTimeManager.getCurrentLectureNo();
@@ -48,7 +51,6 @@ public class MainActivity extends AppCompatActivity {
         final Lecture currentLecture = scheduleManager.getOnGoingLecture();
         final Lecture nextLecture = scheduleManager.getUpcomingLecture();
 
-        //---END of code for testing purposes--------------------------
 
         //Setting up navigation view and item selected listener
         navigationView = findViewById(R.id.navigation_view);
