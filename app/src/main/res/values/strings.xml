@@ -31,6 +31,7 @@
     <string name="success_message">Successful!\nPlease restart app</string>
     <string name="exit">Exit</string>
     <string name="schedule_icon">Schedule Icon</string>
+    <string name="setup">Setup</string>
 
     <!--Preference-->
     <string name="schedule_header">Schedule</string>

@@ -1,10 +1,12 @@
 package io.github.arnabmaji19.whatsnow;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
 public class SettingsActivity extends AppCompatActivity {
@@ -30,11 +32,21 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     //Settings Fragment
-
     public static class SettingsFragment extends PreferenceFragmentCompat {
+
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
             setPreferencesFromResource(R.xml.settings_preferences, rootKey);
+
+            Preference change_pref = findPreference("change_pref_key");
+            if (change_pref != null)
+                change_pref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                    @Override
+                    public boolean onPreferenceClick(Preference preference) {
+                        startActivity(new Intent(getContext(), SetupActivity.class));
+                        return true;
+                    }
+                });
         }
     }
 }
