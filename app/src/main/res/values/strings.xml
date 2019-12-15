@@ -27,4 +27,7 @@
     <string name="batch">Batch:</string>
     <string name="semester">Semester:</string>
     <string name="last_updated">Last Updated:</string>
+    <string name="setup_message">Setting up your schedule…</string>
+    <string name="success_message">Successful!\nPlease restart app</string>
+    <string name="exit">Exit</string>
 </resources>

@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import io.github.arnabmaji19.whatsnow.model.Lecture;
 import io.github.arnabmaji19.whatsnow.model.ScheduleData;
 
 public class UpdateManager {
@@ -53,13 +54,14 @@ public class UpdateManager {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         QuerySnapshot snapshots = task.getResult();
-                        Map schedule = new HashMap();
                         if (snapshots != null) {
+                            Map<String, List<Lecture>> schedule = new HashMap<>();
                             for (QueryDocumentSnapshot snapshot : snapshots) {
                                 String jsonString = snapshot.getString(SCHEDULE_FIELD_NAME);
                                 Gson gson = new Gson();
-                                schedule = gson.fromJson(jsonString, Map.class);
+                                schedule = gson.fromJson(jsonString, schedule.getClass());
                             }
+
                             onSuccessListener.onSuccess(schedule);
                         }
                     }
@@ -67,6 +69,6 @@ public class UpdateManager {
     }
 
     public interface OnSuccessListener {
-        void onSuccess(Map schedule);
+        void onSuccess(Map<String, List<Lecture>> schedule);
     }
 }

@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,10 +13,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
+import java.util.Map;
 
+import io.github.arnabmaji19.whatsnow.model.Lecture;
+import io.github.arnabmaji19.whatsnow.model.LocalScheduleData;
 import io.github.arnabmaji19.whatsnow.model.ScheduleData;
 import io.github.arnabmaji19.whatsnow.util.ConnectionManager;
 import io.github.arnabmaji19.whatsnow.util.DatabaseManager;
+import io.github.arnabmaji19.whatsnow.util.LocalDataManager;
 import io.github.arnabmaji19.whatsnow.util.ScheduleListAdapter;
 import io.github.arnabmaji19.whatsnow.util.UpdateManager;
 
@@ -69,23 +74,62 @@ public class SetupActivity extends AppCompatActivity {
     private void populateRecyclerView(List<ScheduleData> scheduleDataList) {
         ScheduleListAdapter scheduleListAdapter = new ScheduleListAdapter(scheduleDataList, new ScheduleListAdapter.OnItemClickListener() {
             @Override
-            public void onItemClicked(ScheduleData data) {
+            public void onItemClicked(final ScheduleData data) {
                 String message = "Department: " + data.getDepartment() + "\n"
                         + "Batch: " + data.getBatch() + "\n"
                         + "Section: " + data.getSection();
                 //Display confirmation dialog
                 new AlertDialog.Builder(SetupActivity.this)
-                        .setTitle("Please verify your selection")
+                        .setTitle("Please verify your Schedule")
                         .setMessage(message)
                         .setNegativeButton(android.R.string.no, null)
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-
+                                //Show Loading Layout and save the schedule data on mobile
+                                scheduleListLayout.setVisibility(View.GONE);
+                                TextView message = findViewById(R.id.loadingMessageTextView);
+                                message.setText(R.string.setup_message);
+                                loadingLayout.setVisibility(View.VISIBLE);
+                                //Get Schedule and save on local storage
+                                getAndSaveScheduleOnLocalStorage(data);
                             }
                         }).show();
             }
         });
         scheduleListRecyclerView.setAdapter(scheduleListAdapter);
+    }
+
+    private void getAndSaveScheduleOnLocalStorage(final ScheduleData data) {
+        UpdateManager updateManager = new UpdateManager(DatabaseManager.getInstance());
+        updateManager.fetchSchedule(data.getScheduleId(), new UpdateManager.OnSuccessListener() {
+            @Override
+            public void onSuccess(Map<String, List<Lecture>> schedule) {
+                //Create data to save on local storage
+                LocalScheduleData localScheduleData = new LocalScheduleData(
+                        data.getDepartment(),
+                        data.getBatch(),
+                        data.getSection(),
+                        data.getSemester(),
+                        data.getScheduleId(),
+                        data.getLastUpdated(),
+                        schedule
+                );
+                LocalDataManager localDataManager = new LocalDataManager(SetupActivity.this);
+                localDataManager.saveLocalScheduleData(localScheduleData);
+                loadingLayout.setVisibility(View.GONE);
+                //Show complete dialog
+                new AlertDialog.Builder(SetupActivity.this)
+                        .setMessage(R.string.success_message)
+                        .setCancelable(false)
+                        .setPositiveButton(R.string.exit, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                //Close the app
+                                finish();
+                            }
+                        }).show();
+            }
+        });
     }
 }

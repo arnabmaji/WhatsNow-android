@@ -5,14 +5,14 @@ package io.github.arnabmaji19.whatsnow.util;
 import android.app.Activity;
 import android.util.Log;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
+import com.google.gson.Gson;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 
 import io.github.arnabmaji19.whatsnow.model.LocalScheduleData;
 
@@ -20,30 +20,42 @@ public class LocalDataManager {
 
     private static final String FILENAME_WITH_EXTENSION = "local_schedule_data.sm";
     private static final String TAG = "LocalDataManager";
+    private Gson gson;
 
     private File file;
 
     public LocalDataManager(Activity activity) {
         file = new File(activity.getFilesDir(), FILENAME_WITH_EXTENSION);
+        this.gson = new Gson();
     }
 
-    //Serialize LocalScheduleData object in files directory
+    //Convert LocalScheduleData object into Json String and save as text file
     public void saveLocalScheduleData(LocalScheduleData localScheduleData) {
-        try (ObjectOutputStream stream = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(file)))) {
-            stream.writeObject(localScheduleData);
+        String objectJson = gson.toJson(localScheduleData);
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+            writer.write(objectJson);
         } catch (IOException e) {
             Log.e(TAG, "saveLocalScheduleData: Failed to save local schedule data" + e.getMessage());
         }
     }
 
-    //Deserialize LocalScheduleData object from files directory and return
+    //Convert json string to LocalScheduleData object from files directory
     public LocalScheduleData retrieveLocalScheduleData() {
         LocalScheduleData localScheduleData = null;
-        try (ObjectInputStream stream = new ObjectInputStream(new BufferedInputStream(new FileInputStream(file)))) {
-            localScheduleData = (LocalScheduleData) stream.readObject();
-        } catch (IOException | ClassNotFoundException e) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            StringBuilder builder = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                builder.append(line);
+            }
+            localScheduleData = gson.fromJson(builder.toString(), LocalScheduleData.class);
+        } catch (IOException e) {
             Log.e(TAG, "retrieveLocalScheduleData: Failed to retrieve local schedule data" + e.getMessage());
         }
         return localScheduleData;
+    }
+
+    public boolean isLocalDataAvailable() {
+        return file.exists();
     }
 }
