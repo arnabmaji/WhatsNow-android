@@ -5,14 +5,17 @@ import androidx.annotation.NonNull;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import io.github.arnabmaji19.whatsnow.model.ScheduleData;
 
 public class UpdateManager {
-
+    private static final String SCHEDULE_FIELD_NAME = "json_data";
     private static final String TAG = "UpdateManager";
 
     private DatabaseManager databaseManager;
@@ -43,7 +46,27 @@ public class UpdateManager {
         void onDataFetched(List<ScheduleData> scheduleDataList);
     }
 
-    public interface onSuccessListener {
-        void onSuccess();
+    //Get selected schedule from database
+    public void fetchSchedule(final String scheduleId, final OnSuccessListener onSuccessListener) {
+        databaseManager.getScheduleCollection(scheduleId)
+                .addOnCompleteListener(new com.google.android.gms.tasks.OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        QuerySnapshot snapshots = task.getResult();
+                        Map schedule = new HashMap();
+                        if (snapshots != null) {
+                            for (QueryDocumentSnapshot snapshot : snapshots) {
+                                String jsonString = snapshot.getString(SCHEDULE_FIELD_NAME);
+                                Gson gson = new Gson();
+                                schedule = gson.fromJson(jsonString, Map.class);
+                            }
+                            onSuccessListener.onSuccess(schedule);
+                        }
+                    }
+                });
+    }
+
+    public interface OnSuccessListener {
+        void onSuccess(Map schedule);
     }
 }

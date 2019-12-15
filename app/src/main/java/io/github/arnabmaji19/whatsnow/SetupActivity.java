@@ -1,10 +1,11 @@
 package io.github.arnabmaji19.whatsnow;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -69,7 +70,20 @@ public class SetupActivity extends AppCompatActivity {
         ScheduleListAdapter scheduleListAdapter = new ScheduleListAdapter(scheduleDataList, new ScheduleListAdapter.OnItemClickListener() {
             @Override
             public void onItemClicked(ScheduleData data) {
-                Toast.makeText(SetupActivity.this, data.getSection(), Toast.LENGTH_SHORT).show();
+                String message = "Department: " + data.getDepartment() + "\n"
+                        + "Batch: " + data.getBatch() + "\n"
+                        + "Section: " + data.getSection();
+                //Display confirmation dialog
+                new AlertDialog.Builder(SetupActivity.this)
+                        .setTitle("Please verify your selection")
+                        .setMessage(message)
+                        .setNegativeButton(android.R.string.no, null)
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                            }
+                        }).show();
             }
         });
         scheduleListRecyclerView.setAdapter(scheduleListAdapter);
