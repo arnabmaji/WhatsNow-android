@@ -31,4 +31,16 @@
     <string name="success_message">Successful!\nPlease restart app</string>
     <string name="exit">Exit</string>
     <string name="schedule_icon">Schedule Icon</string>
+
+    <!--Preference-->
+    <string name="schedule_header">Schedule</string>
+    <string name="sync_pref_key">sync_pref_key</string>
+    <string name="sync_pref">Sync</string>
+    <string name="sync_pref_summary">Synchronize your current Schedule</string>
+
+    <string name="change_pref_key">change_pref_key</string>
+    <string name="change_pref">Change</string>
+    <string name="change_pref_summary">Download another Schedule</string>
+
+
 </resources>

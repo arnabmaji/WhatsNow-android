@@ -17,7 +17,11 @@
         </activity>
         <activity android:name=".AboutActivity" />
         <activity android:name=".SupportActivity" />
-        <activity android:name=".SettingsActivity" />
+        <activity android:name=".SettingsActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="io.github.arnabmaji19.whatsnow.MainActivity" />
+        </activity>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
