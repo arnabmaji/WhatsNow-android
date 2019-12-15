@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -46,6 +47,8 @@ public class SetupActivity extends AppCompatActivity {
         loadingLayout = findViewById(R.id.loadingLayout);
         scheduleListRecyclerView = findViewById(R.id.scheduleListRecyclerView);
         scheduleListRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        //add line divider in recycler view
+        scheduleListRecyclerView.addItemDecoration(new DividerItemDecoration(scheduleListRecyclerView.getContext(), DividerItemDecoration.VERTICAL));
 
         ConnectionManager connectionManager = new ConnectionManager(SetupActivity.this);
         if (!connectionManager.isInternetConnectionAvailable()) {

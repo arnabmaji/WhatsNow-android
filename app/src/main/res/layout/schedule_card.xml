@@ -9,101 +9,110 @@
         android:id="@+id/departmentHeaderTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="8dp"
         android:text="@string/department"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/scheduleIcon"
+        app:layout_constraintTop_toTopOf="@+id/scheduleIcon" />
 
     <TextView
         android:id="@+id/departmentTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="2dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/departmentHeaderTextView" />
+        android:layout_marginBottom="2dp"
+        android:text="@string/department"
+        app:layout_constraintBottom_toTopOf="@+id/batchTextView"
+        app:layout_constraintStart_toStartOf="@+id/batchTextView"
+        app:layout_constraintTop_toTopOf="@+id/departmentHeaderTextView" />
 
     <TextView
         android:id="@+id/batchHeaderTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="2dp"
         android:text="@string/batch"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/departmentTextView" />
+        app:layout_constraintStart_toStartOf="@+id/departmentHeaderTextView"
+        app:layout_constraintTop_toBottomOf="@+id/departmentHeaderTextView" />
 
     <TextView
         android:id="@+id/batchTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="2dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/batchHeaderTextView" />
+        android:layout_marginBottom="2dp"
+        android:text="@string/batch"
+        app:layout_constraintBottom_toTopOf="@+id/sectionTextView"
+        app:layout_constraintStart_toStartOf="@+id/sectionTextView" />
 
     <TextView
         android:id="@+id/lastUpdatedHeaderTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="2dp"
         android:text="@string/last_updated"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/batchTextView" />
+        app:layout_constraintBottom_toBottomOf="@+id/scheduleIcon"
+        app:layout_constraintStart_toStartOf="@+id/semesterHeaderTextView"
+        app:layout_constraintTop_toBottomOf="@+id/semesterHeaderTextView" />
 
     <TextView
         android:id="@+id/lastUpdatedTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lastUpdatedHeaderTextView" />
+        android:layout_marginStart="4dp"
+        android:text="@string/last_updated"
+        app:layout_constraintBottom_toBottomOf="@+id/lastUpdatedHeaderTextView"
+        app:layout_constraintStart_toEndOf="@+id/lastUpdatedHeaderTextView" />
 
     <TextView
         android:id="@+id/sectionHeaderTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="2dp"
         android:text="@string/section"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/semesterHeaderTextView"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="@+id/batchHeaderTextView"
+        app:layout_constraintTop_toBottomOf="@+id/batchHeaderTextView" />
 
     <TextView
         android:id="@+id/sectionTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
-        app:layout_constraintStart_toStartOf="@+id/sectionHeaderTextView"
-        app:layout_constraintTop_toBottomOf="@+id/sectionHeaderTextView" />
+        android:layout_marginBottom="2dp"
+        android:text="@string/section"
+        app:layout_constraintBottom_toTopOf="@+id/semesterTextView"
+        app:layout_constraintStart_toStartOf="@+id/semesterTextView" />
 
     <TextView
         android:id="@+id/semesterHeaderTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginTop="2dp"
         android:text="@string/semester"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sectionTextView" />
+        app:layout_constraintStart_toStartOf="@+id/sectionHeaderTextView"
+        app:layout_constraintTop_toBottomOf="@+id/sectionHeaderTextView" />
 
     <TextView
         android:id="@+id/semesterTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
-        app:layout_constraintStart_toStartOf="@+id/semesterHeaderTextView"
-        app:layout_constraintTop_toBottomOf="@+id/semesterHeaderTextView" />
+        android:layout_marginBottom="2dp"
+        android:text="@string/semester"
+        app:layout_constraintBottom_toTopOf="@+id/lastUpdatedTextView"
+        app:layout_constraintStart_toStartOf="@+id/lastUpdatedTextView" />
+
+    <ImageView
+        android:id="@+id/scheduleIcon"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:contentDescription="@string/schedule_icon"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/calendar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

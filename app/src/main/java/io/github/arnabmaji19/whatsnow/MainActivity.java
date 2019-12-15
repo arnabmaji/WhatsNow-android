@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
             finish(); //finish the activity, cause you need to restart app after saving local data
             return;
         }
+        //Get local data from local storage
         LocalScheduleData localScheduleData = localDataManager.retrieveLocalScheduleData();
         final DateTimeManager dateTimeManager = new DateTimeManager();
         int currentLectureNo = dateTimeManager.getCurrentLectureNo();

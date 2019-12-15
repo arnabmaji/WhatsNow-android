@@ -30,4 +30,5 @@
     <string name="setup_message">Setting up your schedule…</string>
     <string name="success_message">Successful!\nPlease restart app</string>
     <string name="exit">Exit</string>
+    <string name="schedule_icon">Schedule Icon</string>
 </resources>
