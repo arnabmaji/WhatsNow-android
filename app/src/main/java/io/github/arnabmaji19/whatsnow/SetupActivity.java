@@ -1,6 +1,7 @@
 package io.github.arnabmaji19.whatsnow;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -134,5 +135,16 @@ public class SetupActivity extends AppCompatActivity {
                         }).show();
             }
         });
+    }
+
+    public void restartActivity(View view) {
+        /*
+         * When the user clicks try again button upon restoration of internet connection,
+         * Restart the same activity
+         */
+
+        Intent intent = getIntent(); //get current intent
+        finish(); //finish the current instance of the activity
+        startActivity(intent); //restart the current activity
     }
 }
