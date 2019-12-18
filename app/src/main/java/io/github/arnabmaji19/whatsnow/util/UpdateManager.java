@@ -61,7 +61,6 @@ public class UpdateManager {
                                 Gson gson = new Gson();
                                 schedule = gson.fromJson(jsonString, schedule.getClass());
                             }
-
                             onSuccessListener.onSuccess(schedule);
                         }
                     }

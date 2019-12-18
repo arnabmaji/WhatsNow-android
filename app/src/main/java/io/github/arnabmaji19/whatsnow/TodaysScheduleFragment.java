@@ -54,31 +54,36 @@ public class TodaysScheduleFragment extends Fragment {
         dayPicker.setSelectionMode(SingleSelectionMode.create());
 
         //Selecting toady
-        dayPicker.setSelectedDays(dateTimeManager.getTodayAsMaterialDayPickerWeekday());
-        showSchedule(dateTimeManager.getTodayAsString()); //Showing todays schedule by default
+        MaterialDayPicker.Weekday today = dateTimeManager.getTodayAsMaterialDayPickerWeekday();
+        dayPicker.setSelectedDays(today);
+        showSchedule(today); //Showing todays schedule by default
 
         dayPicker.setDayPressedListener(new MaterialDayPicker.DayPressedListener() {
             @Override
             public void onDayPressed(@NonNull MaterialDayPicker.Weekday selectedDay, boolean b) {
-                if (selectedDay.equals(MaterialDayPicker.Weekday.SATURDAY) ||
-                        selectedDay.equals(MaterialDayPicker.Weekday.SUNDAY)) {
-                    //If It's off day, hide recycler view and show off day message
-                    scheduleRecyclerView.setVisibility(View.GONE);
-                    offDayTextView.setVisibility(View.VISIBLE);
-                } else {
-                    //Otherwise show recycler view and hide off day message
-                    scheduleRecyclerView.setVisibility(View.VISIBLE);
-                    offDayTextView.setVisibility(View.GONE);
-                    //Show schedule for specific day
-                    String day = dateTimeManager.getMaterialDayPickerWeekdayAsString(selectedDay);
-                    showSchedule(day);
-                }
+                showSchedule(selectedDay); //show schedule for current day
             }
         });
         return view;
     }
 
-    private void showSchedule(String day) {
+    private void showSchedule(MaterialDayPicker.Weekday selectedDay) {
+        if (selectedDay.equals(MaterialDayPicker.Weekday.SATURDAY) ||
+                selectedDay.equals(MaterialDayPicker.Weekday.SUNDAY)) {
+            //If It's off day, hide recycler view and show off day message
+            scheduleRecyclerView.setVisibility(View.GONE);
+            offDayTextView.setVisibility(View.VISIBLE);
+        } else {
+            //Otherwise show recycler view and hide off day message
+            scheduleRecyclerView.setVisibility(View.VISIBLE);
+            offDayTextView.setVisibility(View.GONE);
+            //Show schedule for specific day
+            String day = dateTimeManager.getMaterialDayPickerWeekdayAsString(selectedDay);
+            populateRecyclerView(day);
+        }
+    }
+
+    private void populateRecyclerView(String day) { //Populate Recycler View with current day's lecture
         //Get List of Lectures for requested day
         List<Lecture> lecturesList = scheduleManager.getLecturesOfDay(day);
         LecturesListAdapter adapter = new LecturesListAdapter(lecturesList, dateTimeManager, day);
