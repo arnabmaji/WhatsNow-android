@@ -8,35 +8,33 @@ import java.util.Map;
 import io.github.arnabmaji19.whatsnow.model.Lecture;
 
 public class ScheduleManager {
+    private DateTimeManager dateTimeManager;
     private Map<String, List<Lecture>> schedule;
-    private int currentLectureNo;
-    private String todayAsString;
 
-    public ScheduleManager(Map<String, List<Lecture>> schedule, int currentLectureNo, String todayAsString) {
+    public ScheduleManager(DateTimeManager dateTimeManager, Map<String, List<Lecture>> schedule) {
+        this.dateTimeManager = dateTimeManager;
         this.schedule = schedule;
-        this.currentLectureNo = currentLectureNo;
-        this.todayAsString = todayAsString;
     }
 
     public List<Lecture> getAllLecturesOfToday() {
-        return schedule.get(todayAsString);
+        return schedule.get(dateTimeManager.getTodayAsString());
     }
 
     public Lecture getOnGoingLecture() {
-        return workingHours() ? getAllLecturesOfToday()
-                .get(currentLectureNo - 1) : null;
+        return dateTimeManager.workingHours() ? getAllLecturesOfToday()
+                .get(dateTimeManager.getCurrentLectureNo() - 1) : null;
     }
 
     public Lecture getUpcomingLecture() {
-        return (workingHours() && currentLectureNo < 8) ? getAllLecturesOfToday()
-                .get(currentLectureNo) : null;
+        try {
+            return (dateTimeManager.workingHours()) ? getAllLecturesOfToday()
+                    .get(dateTimeManager.getCurrentLectureNo()) : null;
+        } catch (IndexOutOfBoundsException e) { //If it requests last lecture
+            return null;
+        }
     }
 
     public List<Lecture> getLecturesOfDay(String day) {
         return schedule.get(day);
-    }
-
-    private boolean workingHours() {
-        return !(currentLectureNo == -1);
     }
 }

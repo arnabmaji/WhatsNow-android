@@ -85,6 +85,10 @@ public class DateTimeManager {
         return currentPeriod;
     }
 
+    public boolean workingHours() {
+        return currentTimeValue >= 900 && currentTimeValue <= 1620;
+    }
+
     public double getElapsedTimeFraction() {
         /*
          * Function returns current lecture progress in Fraction

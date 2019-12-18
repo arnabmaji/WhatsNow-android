@@ -45,10 +45,7 @@ public class MainActivity extends AppCompatActivity {
         //Get local data from local storage
         LocalScheduleData localScheduleData = localDataManager.retrieveLocalScheduleData();
         final DateTimeManager dateTimeManager = new DateTimeManager();
-        int currentLectureNo = dateTimeManager.getCurrentLectureNo();
-        final ScheduleManager scheduleManager = new ScheduleManager(localScheduleData.getFullSchedule(),
-                currentLectureNo,
-                dateTimeManager.getTodayAsString());
+        final ScheduleManager scheduleManager = new ScheduleManager(dateTimeManager, localScheduleData.getFullSchedule());
         final Lecture currentLecture = scheduleManager.getOnGoingLecture();
         final Lecture nextLecture = scheduleManager.getUpcomingLecture();
 
