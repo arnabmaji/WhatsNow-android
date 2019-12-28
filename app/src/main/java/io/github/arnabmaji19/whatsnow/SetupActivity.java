@@ -67,7 +67,7 @@ public class SetupActivity extends AppCompatActivity {
         UpdateManager manager = new UpdateManager(DatabaseManager.getInstance());
         manager.fetchSchedulesList(new UpdateManager.OnCompleteListener() {
             @Override
-            public void onDataFetched(List<ScheduleData> scheduleDataList) {
+            public void onComplete(List<ScheduleData> scheduleDataList) {
                 loadingLayout.setVisibility(View.GONE); //Hide loading animation
                 scheduleListLayout.setVisibility(View.VISIBLE); //show main layout
                 populateRecyclerView(scheduleDataList);

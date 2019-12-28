@@ -1,16 +1,29 @@
 package io.github.arnabmaji19.whatsnow;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
+import java.util.List;
+import java.util.Map;
+
+import io.github.arnabmaji19.whatsnow.model.Lecture;
+import io.github.arnabmaji19.whatsnow.model.LocalScheduleData;
 import io.github.arnabmaji19.whatsnow.util.ConnectionManager;
+import io.github.arnabmaji19.whatsnow.util.DatabaseManager;
+import io.github.arnabmaji19.whatsnow.util.LocalDataManager;
+import io.github.arnabmaji19.whatsnow.util.UpdateManager;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -21,7 +34,7 @@ public class SettingsActivity extends AppCompatActivity {
         //display settings fragment
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.settings, new SettingsFragment())
+                .replace(R.id.settings, new SettingsFragment(SettingsActivity.this))
                 .commit();
 
         //configure toolbar
@@ -36,6 +49,17 @@ public class SettingsActivity extends AppCompatActivity {
 
     //Settings Fragment
     public static class SettingsFragment extends PreferenceFragmentCompat {
+
+        private Activity activity;
+        private UpdateManager updateManager;
+        private LocalDataManager localDataManager;
+        private AlertDialog dialog;
+        private LocalScheduleData localScheduleData;
+        private String scheduleId;
+
+        public SettingsFragment(Activity activity) {
+            this.activity = activity;
+        }
 
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
@@ -64,13 +88,46 @@ public class SettingsActivity extends AppCompatActivity {
         }
 
         private void sync() { //Sync the currently used schedule
-            ConnectionManager connectionManager = new ConnectionManager(getActivity());
-            if (!connectionManager.isInternetConnectionAvailable()) {
-                Toast.makeText(getActivity(), "Internet connection required!", Toast.LENGTH_SHORT).show();
+            ConnectionManager connectionManager = new ConnectionManager(activity);
+            if (!connectionManager.isInternetConnectionAvailable()) { //If internet is not available discard
+                Toast.makeText(activity, "Internet connection required!", Toast.LENGTH_SHORT).show();
                 return;
             }
-            //TODO:Display progress dialog and update the current schedule
-
+            //Configure to display progress dialog
+            ViewGroup viewGroup = activity.findViewById(android.R.id.content);
+            final View dialogView = LayoutInflater.from(activity).inflate(R.layout.sync_dialog, viewGroup, false);
+            AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+            builder.setView(dialogView)
+                    .setCancelable(false);
+            this.dialog = builder.create(); //Create dialog
+            dialog.show(); //Display dialog
+            this.updateManager = new UpdateManager(DatabaseManager.getInstance());
+            this.localDataManager = new LocalDataManager(activity);
+            this.localScheduleData = localDataManager.retrieveLocalScheduleData(); //Retrieve current LocalScheduleData
+            this.scheduleId = localScheduleData.getScheduleId();
+            updateManager.getLastUpdated(scheduleId, new UpdateManager.OnDataFetchedListener() { //Get LastUpdated for current schedule
+                @Override
+                public void onDataFetched(final String lastUpdated) {
+                    if (lastUpdated.equals(localScheduleData.getLastUpdated())) { //If it's same, don't update
+                        Toast.makeText(getContext(), "Nothing to sync!", Toast.LENGTH_SHORT).show();
+                        dialog.dismiss(); //Hide dialog
+                        return; //Don't have to make changes
+                    }
+                    //Update the LocalScheduleData
+                    updateManager.fetchSchedule(scheduleId, new UpdateManager.OnSuccessListener() {
+                        @Override
+                        public void onSuccess(Map<String, List<Lecture>> schedule) {
+                            //Make changes to Local Schedule Data
+                            localScheduleData.setLastUpdated(lastUpdated);
+                            localScheduleData.setFullSchedule(schedule);
+                            //Save it on storage
+                            localDataManager.saveLocalScheduleData(localScheduleData);
+                            dialog.dismiss(); //Dismiss the Sync Dialog
+                            Toast.makeText(activity, "Schedule updated to " + lastUpdated, Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            });
         }
     }
 

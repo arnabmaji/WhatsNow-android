@@ -28,6 +28,7 @@ public class UpdateManager {
     public void fetchSchedulesList(final OnCompleteListener listener) {
         //get data from firebase
         databaseManager.getSchedulesListCollection()
+                .get()
                 .addOnCompleteListener(new com.google.android.gms.tasks.OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -37,14 +38,10 @@ public class UpdateManager {
                             for (QueryDocumentSnapshot snapshot : snapshots) {
                                 scheduleDataList.add(snapshot.toObject(ScheduleData.class));
                             }
-                            listener.onDataFetched(scheduleDataList);
+                            listener.onComplete(scheduleDataList);
                         }
                     }
                 });
-    }
-
-    public interface OnCompleteListener {
-        void onDataFetched(List<ScheduleData> scheduleDataList);
     }
 
     //Get selected schedule from database
@@ -65,6 +62,36 @@ public class UpdateManager {
                         }
                     }
                 });
+    }
+
+    public void getLastUpdated(final String scheduleId, final OnDataFetchedListener onDataFetchedListener) {
+        /*
+         * Gets Last Updated details for a schedule
+         */
+        databaseManager.getSchedulesListCollection()
+                .whereEqualTo("scheduleId", scheduleId)
+                .get()
+                .addOnCompleteListener(new com.google.android.gms.tasks.OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        QuerySnapshot snapshots = task.getResult();
+                        if (snapshots != null) {
+                            ScheduleData scheduleData = null;
+                            for (QueryDocumentSnapshot snapshot : snapshots)
+                                scheduleData = snapshot.toObject(ScheduleData.class);
+                            if (scheduleData != null)
+                                onDataFetchedListener.onDataFetched(scheduleData.getLastUpdated());
+                        }
+                    }
+                });
+    }
+
+    public interface OnDataFetchedListener {
+        void onDataFetched(String lastUpdated);
+    }
+
+    public interface OnCompleteListener {
+        void onComplete(List<ScheduleData> scheduleDataList);
     }
 
     public interface OnSuccessListener {

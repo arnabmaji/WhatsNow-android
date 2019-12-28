@@ -32,6 +32,7 @@
     <string name="exit">Exit</string>
     <string name="schedule_icon">Schedule Icon</string>
     <string name="setup">Setup</string>
+    <string name="sync">Synchronizing&#8230;</string>
 
     <!--Preference-->
     <string name="schedule_header">Schedule</string>
