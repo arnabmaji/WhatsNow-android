@@ -13,7 +13,10 @@ import ca.antonious.materialdaypicker.MaterialDayPicker;
 public class DateTimeManager {
 
     private static final String TAG = "DateTimeManager";
-    public static final int PERIOD_MAX_TIME = 55;
+    private static final int WORKING_HOUR_START_TIME = 900;
+    private static final int WORKING_HOUR_END_TIME = 1620;
+    private static final int PERIOD_MAX_TIME = 55;
+
 
     private static final BiMap<Integer, String> weekdayMap = HashBiMap.create();
     private static final BiMap<String, MaterialDayPicker.Weekday> materialDayPickerWeekdayMap = HashBiMap.create();
@@ -41,7 +44,7 @@ public class DateTimeManager {
     public enum ProgressStatus {COMPLETED, UPCOMING, ONGOING}
 
     private int currentTimeValue;
-    private String periodStartTimeString;
+    private String periodStartTimeString = "0000";
     private Calendar calendar;
 
     public DateTimeManager() {
@@ -86,7 +89,15 @@ public class DateTimeManager {
     }
 
     public boolean workingHours() {
-        return currentTimeValue >= 900 && currentTimeValue <= 1620;
+        return currentTimeValue >= WORKING_HOUR_START_TIME && currentTimeValue <= WORKING_HOUR_END_TIME;
+    }
+
+    public boolean isBeforeWorkingHours() {
+        return currentTimeValue < WORKING_HOUR_START_TIME;
+    }
+
+    public boolean isAfterWorkingHours() {
+        return currentTimeValue > WORKING_HOUR_END_TIME;
     }
 
     public double getElapsedTimeFraction() {
@@ -153,10 +164,16 @@ public class DateTimeManager {
         if (weekDayNo < currentDayNo) {
             return ProgressStatus.COMPLETED;
         } else if (weekDayNo == currentDayNo) {
-            if (lectureNo < currentLectureNo) {
+            if (isBeforeWorkingHours()) {
+                return ProgressStatus.UPCOMING;
+            } else if (workingHours()) {
+                if (lectureNo < currentLectureNo) {
+                    return ProgressStatus.COMPLETED;
+                } else if (lectureNo == currentLectureNo) {
+                    return ProgressStatus.ONGOING;
+                }
+            } else if (isAfterWorkingHours()) {
                 return ProgressStatus.COMPLETED;
-            } else if (lectureNo == currentLectureNo) {
-                return ProgressStatus.ONGOING;
             }
         }
         return ProgressStatus.UPCOMING;
