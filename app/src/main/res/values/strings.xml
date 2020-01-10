@@ -44,5 +44,9 @@
     <string name="change_pref">Change</string>
     <string name="change_pref_summary">Download another Schedule</string>
 
+    <string name="view_current_pref_key">view_current_pref_key</string>
+    <string name="view_current_pref">View Details</string>
+    <string name="view_current_pref_summary">Display your current schedule details</string>
+
 
 </resources>

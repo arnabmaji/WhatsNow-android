@@ -59,6 +59,9 @@ public class SettingsActivity extends AppCompatActivity {
 
         public SettingsFragment(Activity activity) {
             this.activity = activity;
+            this.updateManager = new UpdateManager(DatabaseManager.getInstance());
+            this.localDataManager = new LocalDataManager(activity);
+            this.localScheduleData = localDataManager.retrieveLocalScheduleData(); //Retrieve current LocalScheduleData
         }
 
         @Override
@@ -85,6 +88,26 @@ public class SettingsActivity extends AppCompatActivity {
                         return true;
                     }
                 });
+
+            Preference viewCurrentPref = findPreference("view_current_pref_key");
+            if (viewCurrentPref != null) {
+                viewCurrentPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                    @Override
+                    public boolean onPreferenceClick(Preference preference) {
+                        //display current schedule details
+                        final String details = "Batch: " + localScheduleData.getBatch() +
+                                "\nDepartment: " + localScheduleData.getDepartment() +
+                                "\nSection: " + localScheduleData.getSection() +
+                                "\nSemester: " + localScheduleData.getSemester() +
+                                "\nLast Updated: " + localScheduleData.getLastUpdated();
+                        //display dialog containing all details about current schedule
+                        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+                        builder.setMessage(details);
+                        builder.create().show();
+                        return true;
+                    }
+                });
+            }
         }
 
         private void sync() { //Sync the currently used schedule
@@ -101,9 +124,6 @@ public class SettingsActivity extends AppCompatActivity {
                     .setCancelable(false);
             this.dialog = builder.create(); //Create dialog
             dialog.show(); //Display dialog
-            this.updateManager = new UpdateManager(DatabaseManager.getInstance());
-            this.localDataManager = new LocalDataManager(activity);
-            this.localScheduleData = localDataManager.retrieveLocalScheduleData(); //Retrieve current LocalScheduleData
             this.scheduleId = localScheduleData.getScheduleId();
             updateManager.getLastUpdated(scheduleId, new UpdateManager.OnDataFetchedListener() { //Get LastUpdated for current schedule
                 @Override

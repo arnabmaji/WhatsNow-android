@@ -13,5 +13,11 @@
             app:key="@string/change_pref_key"
             app:icon="@drawable/ic_get_app_black_24dp" />
 
+        <Preference
+            app:title="@string/view_current_pref"
+            app:summary="@string/view_current_pref_summary"
+            app:key="@string/view_current_pref_key"
+            app:icon="@drawable/ic_schedule_black_24dp" />
+
     </PreferenceCategory>
 </PreferenceScreen>
