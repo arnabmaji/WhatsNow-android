@@ -121,18 +121,10 @@ public class SetupActivity extends AppCompatActivity {
                 );
                 LocalDataManager localDataManager = new LocalDataManager(SetupActivity.this);
                 localDataManager.saveLocalScheduleData(localScheduleData);
-                loadingLayout.setVisibility(View.GONE);
-                //Show complete dialog
-                new AlertDialog.Builder(SetupActivity.this)
-                        .setMessage(R.string.success_message)
-                        .setCancelable(false)
-                        .setPositiveButton(R.string.exit, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                //Close the app
-                                finish();
-                            }
-                        }).show();
+
+                loadingLayout.setVisibility(View.GONE); //hide the loading animation
+                startActivity(new Intent(SetupActivity.this, MainActivity.class)); //After setup show main activity
+                finish(); //finish the setup activity
             }
         });
     }
