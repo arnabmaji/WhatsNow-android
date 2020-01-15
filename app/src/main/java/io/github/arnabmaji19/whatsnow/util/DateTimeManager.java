@@ -178,4 +178,8 @@ public class DateTimeManager {
         }
         return ProgressStatus.UPCOMING;
     }
+
+    public boolean isWeekDay() {
+        return !(getTodayAsString().equals("Sunday") || getTodayAsString().equals("Saturday"));
+    }
 }

@@ -27,6 +27,11 @@ public class MainActivity extends AppCompatActivity {
 
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
+    private LocalScheduleData localScheduleData;
+    private DateTimeManager dateTimeManager;
+    private ScheduleManager scheduleManager;
+    private Lecture currentLecture;
+    private Lecture nextLecture;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,11 +48,11 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
         //Get local data from local storage
-        final LocalScheduleData localScheduleData = localDataManager.retrieveLocalScheduleData();
-        final DateTimeManager dateTimeManager = new DateTimeManager();
-        final ScheduleManager scheduleManager = new ScheduleManager(dateTimeManager, localScheduleData.getFullSchedule());
-        final Lecture currentLecture = scheduleManager.getOnGoingLecture();
-        final Lecture nextLecture = scheduleManager.getUpcomingLecture();
+        localScheduleData = localDataManager.retrieveLocalScheduleData();
+        dateTimeManager = new DateTimeManager();
+        scheduleManager = new ScheduleManager(dateTimeManager, localScheduleData.getFullSchedule());
+        currentLecture = scheduleManager.getOnGoingLecture();
+        nextLecture = scheduleManager.getUpcomingLecture();
 
 
         //Setting up navigation view and item selected listener

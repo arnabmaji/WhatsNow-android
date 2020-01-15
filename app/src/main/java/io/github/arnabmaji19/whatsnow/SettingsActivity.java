@@ -143,7 +143,7 @@ public class SettingsActivity extends AppCompatActivity {
                             //Save it on storage
                             localDataManager.saveLocalScheduleData(localScheduleData);
                             dialog.dismiss(); //Dismiss the Sync Dialog
-                            Toast.makeText(activity, "Schedule updated to " + lastUpdated, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(activity, "Schedule updated as of " + lastUpdated, Toast.LENGTH_SHORT).show();
                         }
                     });
                 }

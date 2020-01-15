@@ -21,13 +21,13 @@ public class ScheduleManager {
     }
 
     public Lecture getOnGoingLecture() {
-        return dateTimeManager.workingHours() ? getAllLecturesOfToday()
+        return (dateTimeManager.isWeekDay() && dateTimeManager.workingHours()) ? getAllLecturesOfToday()
                 .get(dateTimeManager.getCurrentLectureNo() - 1) : null;
     }
 
     public Lecture getUpcomingLecture() {
         try {
-            return (dateTimeManager.workingHours()) ? getAllLecturesOfToday()
+            return (dateTimeManager.isWeekDay() && dateTimeManager.workingHours()) ? getAllLecturesOfToday()
                     .get(dateTimeManager.getCurrentLectureNo()) : null;
         } catch (IndexOutOfBoundsException e) { //If it requests last lecture
             return null;
