@@ -3,7 +3,7 @@
     <string name="app_version">v1.0</string>
     <string name="developer_message">Developed with ❤️ By Arnab Maji</string>
     <string name="dedication_message">Dedicated to my Grandma\n(1934 &#8211; 2019)</string>
-    <string name="support_message">Any suggestions, any queries\nfeel free to contact!\n\nE-mail @</string>
+    <string name="support_message">Any Suggestions, Any Queries?\nFeel Free to Contact!\n\nE-mail @</string>
     <string name="support_email">cyberminds19@outlook.com</string>
     <string name="donation_message">Appreciate this work?\nDonate via PayPal!</string>
 
@@ -25,10 +25,10 @@
     <string name="off_day">It\'s Off day!</string>
     <string name="lecture_room"> </string>
     <string name="lecture_duration"> </string>
-    <string name="connection_error">Oops!\nInternet Connection Not Available!</string>
+    <string name="connection_error">Can\'t connect to Internet!</string>
     <string name="try_again">Try Again!</string>
     <string name="load_text">Looking up in the database!</string>
-    <string name="select_schedule">Select your preferred schedule:</string>
+    <string name="select_schedule">Select Your Preferred Schedule:</string>
     <string name="department">Department:</string>
     <string name="section">Section:</string>
     <string name="batch">Batch:</string>
@@ -44,7 +44,7 @@
     <!--Preference-->
     <string name="schedule_header">Schedule</string>
     <string name="sync_pref_key">sync_pref_key</string>
-    <string name="sync_pref">Sync</string>
+    <string name="sync_pref">Sync Now</string>
     <string name="sync_pref_summary">Synchronize your current Schedule</string>
 
     <string name="change_pref_key">change_pref_key</string>

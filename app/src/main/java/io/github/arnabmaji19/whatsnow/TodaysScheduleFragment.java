@@ -14,9 +14,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
+import java.util.Locale;
 
 import ca.antonious.materialdaypicker.MaterialDayPicker;
-import ca.antonious.materialdaypicker.SingleSelectionMode;
 import io.github.arnabmaji19.whatsnow.model.Lecture;
 import io.github.arnabmaji19.whatsnow.util.DateTimeManager;
 import io.github.arnabmaji19.whatsnow.util.LecturesListAdapter;
@@ -51,7 +51,7 @@ public class TodaysScheduleFragment extends Fragment {
 
         //Configuring Week Day picker
         MaterialDayPicker dayPicker = view.findViewById(R.id.day_picker);
-        dayPicker.setSelectionMode(SingleSelectionMode.create());
+        dayPicker.setLocale(Locale.ENGLISH);
 
         //Selecting toady
         MaterialDayPicker.Weekday today = dateTimeManager.getTodayAsMaterialDayPickerWeekday();

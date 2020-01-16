@@ -113,7 +113,7 @@ public class SettingsActivity extends AppCompatActivity {
         private void sync() { //Sync the currently used schedule
             ConnectionManager connectionManager = new ConnectionManager(activity);
             if (!connectionManager.isInternetConnectionAvailable()) { //If internet is not available discard
-                Toast.makeText(activity, "Internet connection required!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(activity, "Can't connect to Internet!", Toast.LENGTH_SHORT).show();
                 return;
             }
             //Configure to display progress dialog

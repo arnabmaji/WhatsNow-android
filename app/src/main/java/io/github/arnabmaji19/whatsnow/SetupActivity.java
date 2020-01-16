@@ -84,7 +84,7 @@ public class SetupActivity extends AppCompatActivity {
                         + "Section: " + data.getSection();
                 //Display confirmation dialog
                 new AlertDialog.Builder(SetupActivity.this)
-                        .setTitle("Please verify your Schedule")
+                        .setTitle("Please Verify Your Schedule")
                         .setMessage(message)
                         .setNegativeButton(android.R.string.no, null)
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
