@@ -38,13 +38,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //Creates Navigation Drawer
+        //Create Navigation Drawer
         setUpNavigationDrawer();
 
         LocalDataManager localDataManager = new LocalDataManager(this);
         if (!localDataManager.isLocalDataAvailable()) { //Check if local data is available
             startNewActivity(new SetupActivity()); //If not available get from database from SetUpActivity
-            finish(); //finish the activity, cause you need to restart app after saving local data
+            finish(); //finish the activity, cause you need to restart activity after saving local data
             return;
         }
         //Get local data from local storage
@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         nextLecture = scheduleManager.getUpcomingLecture();
 
 
-        //Setting up navigation view and item selected listener
+        //Set up navigation view and item selected listener
         navigationView = findViewById(R.id.navigation_view);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -97,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //Showing Dashboard fragment as default fragment
+        //Show Dashboard fragment as default fragment
         setFragment(new DashboardFragment(currentLecture,
                 nextLecture,
                 dateTimeManager.getElapsedTimeFraction()));
@@ -119,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(new Intent(MainActivity.this, activity.getClass()));
     }
 
-    //sets the selected fragment in main activity's frame layout
+    //set the selected fragment in main activity's frame layout
     private void setFragment(Fragment fragment) {
         getSupportFragmentManager()
                 .beginTransaction()

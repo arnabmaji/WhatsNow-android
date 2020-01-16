@@ -1,5 +1,9 @@
 <resources>
     <string name="app_name">WhatsNow</string>
+    <string name="app_version">v1.0</string>
+    <string name="developer_message">Developed with ❤️ By Arnab Maji</string>
+    <string name="dedication_message">Dedicated to my Grandma\n(1934 - 2019)</string>
+
     <string name="dashboard">Dashboard</string>
     <string name="today_schedule">Today\'s Schedule</string>
     <string name="settings">Settings</string>
