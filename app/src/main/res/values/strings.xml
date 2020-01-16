@@ -2,7 +2,10 @@
     <string name="app_name">WhatsNow</string>
     <string name="app_version">v1.0</string>
     <string name="developer_message">Developed with ❤️ By Arnab Maji</string>
-    <string name="dedication_message">Dedicated to my Grandma\n(1934 - 2019)</string>
+    <string name="dedication_message">Dedicated to my Grandma\n(1934 &#8211; 2019)</string>
+    <string name="support_message">Any suggestions, any queries\nfeel free to contact!\n\nE-mail @</string>
+    <string name="support_email">cyberminds19@outlook.com</string>
+    <string name="donation_message">Appreciate this work?\nDonate via PayPal!</string>
 
     <string name="dashboard">Dashboard</string>
     <string name="today_schedule">Today\'s Schedule</string>
@@ -52,5 +55,9 @@
     <string name="view_current_pref">View Details</string>
     <string name="view_current_pref_summary">Display your current schedule details</string>
 
+    <string name="linkedin">LinkedIn</string>
+    <string name="github">Github</string>
+    <string name="instagram">Instagram</string>
+    <string name="social_links">Social Links</string>
 
 </resources>

@@ -29,7 +29,7 @@ public class AboutActivity extends AppCompatActivity {
         }
 
         TextView sourceTextView = findViewById(R.id.sourceTextView);
-        String html = "<u>This is an Open Source Project<br>Source available at Github</u>"; //Underline the Text
+        String html = "<u>This is an Open Source Project<br>Available at Github!</u>"; //Underline the Text
         Spanned htmlSpanned = Html.fromHtml(html, Html.FROM_HTML_MODE_COMPACT);
         sourceTextView.setText(htmlSpanned);
     }
