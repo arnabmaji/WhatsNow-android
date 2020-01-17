@@ -129,7 +129,7 @@ public class SettingsActivity extends AppCompatActivity {
                 @Override
                 public void onDataFetched(final String lastUpdated) {
                     if (lastUpdated.equals(localScheduleData.getLastUpdated())) { //If it's same, don't update
-                        Toast.makeText(getContext(), "Nothing to sync!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "You already have the latest", Toast.LENGTH_SHORT).show();
                         dialog.dismiss(); //Hide dialog
                         return; //Don't have to make changes
                     }

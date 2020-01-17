@@ -17,9 +17,13 @@ import com.google.android.material.navigation.NavigationView;
 
 import io.github.arnabmaji19.whatsnow.model.Lecture;
 import io.github.arnabmaji19.whatsnow.model.LocalScheduleData;
+import io.github.arnabmaji19.whatsnow.util.ConnectionManager;
+import io.github.arnabmaji19.whatsnow.util.DatabaseManager;
 import io.github.arnabmaji19.whatsnow.util.DateTimeManager;
 import io.github.arnabmaji19.whatsnow.util.LocalDataManager;
+import io.github.arnabmaji19.whatsnow.util.QueryScheduleUpdate;
 import io.github.arnabmaji19.whatsnow.util.ScheduleManager;
+import io.github.arnabmaji19.whatsnow.util.UpdateManager;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -30,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private LocalScheduleData localScheduleData;
     private DateTimeManager dateTimeManager;
     private ScheduleManager scheduleManager;
+    private ConnectionManager connectionManager;
     private Lecture currentLecture;
     private Lecture nextLecture;
 
@@ -51,9 +56,18 @@ public class MainActivity extends AppCompatActivity {
         localScheduleData = localDataManager.retrieveLocalScheduleData();
         dateTimeManager = new DateTimeManager();
         scheduleManager = new ScheduleManager(dateTimeManager, localScheduleData.getFullSchedule());
+        connectionManager = new ConnectionManager(this);
         currentLecture = scheduleManager.getOnGoingLecture();
         nextLecture = scheduleManager.getUpcomingLecture();
 
+        //Notify user for any schedule update
+        if (connectionManager.isInternetConnectionAvailable()) { //Query schedule update only if Internet connection is available
+            UpdateManager updateManager = new UpdateManager(DatabaseManager.getInstance());
+            QueryScheduleUpdate queryScheduleUpdate = new QueryScheduleUpdate(this, updateManager, localScheduleData);
+            //Query for update in background thread
+            Thread thread = new Thread(queryScheduleUpdate);
+            thread.start();
+        }
 
         //Set up navigation view and item selected listener
         navigationView = findViewById(R.id.navigation_view);
